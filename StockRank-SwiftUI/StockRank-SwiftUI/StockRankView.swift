@@ -18,21 +18,30 @@ struct StockRankView: View {
 //                    .frame(height: 80)
 //            }
 //        }
+//      Model이 Identifiable 프로토콜을 준수할 경우 id: \.self 생략 가능
         
-        // Model이 Identifiable 프로토콜을 준수할 경우 id: \.self 생략 가능
-        List(list) { item in
-            StockRankRow(stock: item)
-                .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-                .listRowSeparator(.hidden)
+        NavigationView {
+            List($list) { item in
+                ZStack {
+                    NavigationLink {
+                        StockDetailView(stock: item)
+                    } label: {
+                        EmptyView() // 비어있으면 이상하니까 빈 뷰 넣기...?
+                    }
+                    StockRankRow(stock: item)
+                }
+                .listRowInsets(EdgeInsets())
                 .frame(height: 80)
+            }
+            .listStyle(.plain)
+            .navigationTitle("Stock Rank")
         }
-        .listStyle(.plain)
-        .background(.black)
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         StockRankView()
+            .preferredColorScheme(.dark)
     }
 }
