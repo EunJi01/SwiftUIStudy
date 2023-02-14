@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct StockRankView: View {
-    
-    @State var list = StockModel.list
+    //@State var list = StockModel.list
+    @StateObject var vm = StockRankViewModel()
     
     var body: some View {
 //        ScrollView { // 데이터가 많지 않고, 동적일 경우에는 이렇게 해도 문제는 없다.
@@ -21,10 +21,10 @@ struct StockRankView: View {
 //      Model이 Identifiable 프로토콜을 준수할 경우 id: \.self 생략 가능
         
         NavigationView {
-            List($list) { item in
+            List($vm.models) { item in
                 ZStack {
                     NavigationLink {
-                        StockDetailView(stock: item)
+                        StockDetailView(vm: vm, stock: item)
                     } label: {
                         EmptyView() // 비어있으면 이상하니까 빈 뷰 넣기...?
                     }
